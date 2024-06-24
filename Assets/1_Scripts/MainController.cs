@@ -6,8 +6,16 @@ using UnityEngine;
 public class MainController :MonoBehaviour
 {
     private static MainController _instance;
+    [SerializeField] private HandController _handController;
+    [SerializeField]private IngredientID _id;
+    private Sprite[] _ingredients;
+    [SerializeField] private Camera _camera;
 
-    [SerializeField]private Sprite[] _ingredients;
+    public IngredientID ID
+    {
+        get { return _id; }
+        set { _id = value; }
+    }
 
     public static MainController Instance
     {
@@ -28,9 +36,27 @@ public class MainController :MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        _handController.SetPosition(_camera.ScreenToWorldPoint(Input.mousePosition));
+    }
+
     private void LoadData()
     {
         _ingredients = Resources.LoadAll<Sprite>("0_Images");
+    }
+
+    public void SetHand(IngredientID id)
+    {
+        _id = id;
+
+
+        _handController.SetSprite(getSprite(id));
+    }
+
+    public Sprite getSprite(IngredientID id)
+    {
+        return _ingredients[(int)id];
     }
 
 

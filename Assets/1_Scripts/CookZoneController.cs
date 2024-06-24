@@ -11,9 +11,9 @@ public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        MainController.Instance.ID = _id;
+        MainController.Instance.SetHand(_id);
         _id = IngredientID.None;
-        _ingredient.sprite = MainController.Instance.getSprite(IngredientID.None);
+        _ingredient.sprite = MainController.Instance.GetSprite(IngredientID.None);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -26,13 +26,19 @@ public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler
         if(MainController.Instance.ID != IngredientID.None)
         {
             _id = MainController.Instance.ID;
-            _ingredient.sprite = MainController.Instance.getSprite(MainController.Instance.ID);
-            MainController.Instance.ID = IngredientID.None;
+            _ingredient.sprite = MainController.Instance.GetSprite(MainController.Instance.ID);
+            MainController.Instance.SetHand(IngredientID.None);
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (MainController.Instance.ID != IngredientID.None)
+        {
+            _id = MainController.Instance.ID;
+            _ingredient.sprite = MainController.Instance.GetSprite(MainController.Instance.ID);
+            MainController.Instance.SetHand(IngredientID.None);
+        }
         Debug.Log("a");
     }
 }

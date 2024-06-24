@@ -1362,7 +1362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _handController: {fileID: 2146315147}
-  _onHandID: 0
+  _id: 0
   _camera: {fileID: 1797908564}
 --- !u!4 &2114641480
 Transform:
@@ -1479,7 +1479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hand: {fileID: 2146315146}
-  transform: {fileID: 2146315145}
+  handPos: {fileID: 2146315145}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

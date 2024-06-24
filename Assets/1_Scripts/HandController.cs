@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer hand;
-    [SerializeField] Transform handPos;
+    [SerializeField] private SpriteRenderer hand;
+    [SerializeField] private Transform handPos;
     public void SetSprite(Sprite sprite)
     {
         hand.sprite = sprite;

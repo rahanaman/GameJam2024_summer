@@ -14,7 +14,6 @@ public class MainController :MonoBehaviour
     public IngredientID ID
     {
         get { return _id; }
-        set { _id = value; }
     }
 
     public static MainController Instance
@@ -36,9 +35,10 @@ public class MainController :MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _handController.SetPosition(_camera.ScreenToWorldPoint(Input.mousePosition));
+
     }
 
     private void LoadData()
@@ -50,11 +50,10 @@ public class MainController :MonoBehaviour
     {
         _id = id;
 
-
-        _handController.SetSprite(getSprite(id));
+        _handController.SetSprite(GetSprite(id));
     }
 
-    public Sprite getSprite(IngredientID id)
+    public Sprite GetSprite(IngredientID id)
     {
         return _ingredients[(int)id];
     }

@@ -6,25 +6,46 @@ using UnityEngine.EventSystems;
 public class KitchenViewController : MonoBehaviour, IDragHandler, IBeginDragHandler
 {
     [SerializeField] private RectTransform _canvas;
+    private float _keySpeed = 50.0f;
     private float _speed = 50.0f;
     private float _dragSpeed;
     private float _leftBound;
     private float _righttBound;
+    private float _bound = 50.0f;
     private float _posX;
+    
     void Start()
     {
-        _leftBound = -960*_canvas.localScale.x;
-        _righttBound = (960-_canvas.rect.width)*_canvas.localScale.x;
+        _leftBound = -960 * _canvas.localScale.x;
+        _righttBound = (960 - _canvas.rect.width) * _canvas.localScale.x;
         _dragSpeed = _canvas.localScale.x;
         //_canvas.transform.position = new Vector3(_leftBound, 0, 0);
     }
 
-    
+
+    private void Reset()
+    {
+        
+    }
+
+
     void Update()
     {
+        pointerMove();
         move();
     }
 
+    private void pointerMove()
+    {
+        Vector3 v = Input.mousePosition;
+        Debug.Log(Screen.width - _bound);
+        if(v.x < _bound) {
+            _canvas.transform.position = new Vector3(checkBound(_canvas.transform.position.x + _speed * Time.deltaTime), _canvas.transform.position.y, _canvas.transform.position.z);
+        }
+        else if(v.x > Screen.width-_bound) {
+            _canvas.transform.position = new Vector3(checkBound(_canvas.transform.position.x - _speed * Time.deltaTime), _canvas.transform.position.y, _canvas.transform.position.z);
+        }
+    }
     private void move()
     {
         if (Input.GetKey(KeyCode.A)) moveLeft();
@@ -41,13 +62,13 @@ public class KitchenViewController : MonoBehaviour, IDragHandler, IBeginDragHand
 
     private void moveLeft()
     {
-        float newX = checkBound(_canvas.transform.position.x + _speed * Time.deltaTime);
+        float newX = checkBound(_canvas.transform.position.x + _keySpeed * Time.deltaTime);
         _canvas.transform.position = new Vector3(newX, _canvas.transform.position.y, _canvas.transform.position.z);
     }
 
     private void moveRight()
     {
-        float newX = checkBound(_canvas.transform.position.x - _speed * Time.deltaTime);
+        float newX = checkBound(_canvas.transform.position.x - _keySpeed * Time.deltaTime);
         _canvas.transform.position = new Vector3(newX, _canvas.transform.position.y, _canvas.transform.position.z);
     }
 

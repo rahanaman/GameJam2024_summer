@@ -7,7 +7,7 @@ public class MainController :MonoBehaviour
 {
     private static MainController _instance;
     [SerializeField] private HandController _handController;
-    [SerializeField]private IngredientID _id;
+    [SerializeField] private IngredientID _id;
     private Sprite[] _ingredients;
     [SerializeField] private Camera _camera;
 
@@ -38,7 +38,13 @@ public class MainController :MonoBehaviour
     private void FixedUpdate()
     {
         _handController.SetPosition(_camera.ScreenToWorldPoint(Input.mousePosition));
+    }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0)) {
+            TestEvent.Trigger(Random.Range(0, 1000));
+        }
     }
 
     private void LoadData()

@@ -45,6 +45,7 @@ namespace MarsDonalds
     {
         public static Stage Instance { get; private set; } = null;
         public int stageIndex = 1;
+        public bool IsPlay = true;
         private void Awake()
         {
             Instance = this;

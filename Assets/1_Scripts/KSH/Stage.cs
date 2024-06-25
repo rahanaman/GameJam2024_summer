@@ -36,6 +36,8 @@ namespace MarsDonalds
     /// </summary>
     public class Stage : MonoBehaviour
     {
+
+        private int _stageTime = 300;
         public static Stage Instance { get; private set; } = null;
         public int stageIndex = 1;
         private void Awake()
@@ -53,7 +55,7 @@ namespace MarsDonalds
             int currentTime = 0;
             WaitForSeconds waitForSecond = new WaitForSeconds(1f);
             // 스테이지 시작
-            while(currentTime < 300) {
+            while(currentTime < _stageTime) {
                 StageTimeEvent.Trigger(currentTime++);
                 yield return waitForSecond;
             }

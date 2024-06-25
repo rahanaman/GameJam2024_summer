@@ -31,17 +31,20 @@ namespace MarsDonalds
     {
         static OrderSubmitEvent e;
         public List<CookData> cookData;
+        public int extraSubMenu;
         public List<int> extraSource;
         public List<int> extraDrink;
         
         public static void Trigger(
-            IEnumerable<CookData> cookData, 
-            IEnumerable<int> extraSource, 
-            IEnumerable<int> extraDrink)
+            IEnumerable<CookData> cookData,
+            int extraSubMenu = 0,
+            IEnumerable<int> extraSource = null, 
+            IEnumerable<int> extraDrink = null)
         {
             e.cookData = cookData.ToList();
-            e.extraSource = extraSource.ToList();
-            e.extraDrink = extraDrink.ToList();
+            e.extraSubMenu = extraSubMenu;
+            e.extraSource = extraSource?.ToList();
+            e.extraDrink = extraDrink?.ToList();
             EventManager.TriggerEvent(e);
         }
     }
@@ -73,11 +76,22 @@ namespace MarsDonalds
         IEventListener<StageStartEvent>, IEventListener<StageTimeEvent>, IEventListener<StageEndEvent>,
         IEventListener<OrderSubmitEvent>
     {
-        private static readonly int[] orderMenuCount = { 1, 1, 1, 2, 2, 2, 2, 2, 3, 3 };
+        public class MenuData
+        {
+            public int potatoID;
+            public Recipe recipe;
 
+            public MenuData(int potatoID, Recipe recipe)
+            {
+                this.potatoID = potatoID;
+                this.recipe = recipe;
+            }
+        }
         public class OrderData
         {
-            public List<int> menuData;
+            private static readonly int[] orderMenuCount = { 1, 1, 1, 2, 2, 2, 2, 2, 3, 3 };
+            public List<MenuData> menuData;
+            public int extraSubMenu;
             public List<int> extraSource;
             public List<int> extraDrink;
 
@@ -87,7 +101,13 @@ namespace MarsDonalds
             public OrderData()
             {
                 int menuCount = orderMenuCount[Random.Range(0, orderMenuCount.Length)];
-                menuData = new List<int>(menuCount);
+                menuData = new List<MenuData>(menuCount);
+                for(int i = 0; i < menuCount; ++i) {
+                    menuData.Add(
+                        new MenuData(Random.Range(0, 4), 
+                        Order.Instance.GetRandomRecipe()));
+                }
+                extraSubMenu = Random.Range(0, 100) < 50 ? 0 : 1;
                 extraSource = new List<int>(3);
                 for (int i = 1; i <= 3; ++i) {
                     if (Random.Range(0, 100) < 30) {
@@ -113,11 +133,31 @@ namespace MarsDonalds
         public static Order Instance { get; private set; } = null;
         public bool IsListening => throw new System.NotImplementedException();
 
-        public List<Data.Order> orderTable;
-        private int totalWeight;
-
         private OrderData _current;
         private bool _isSubmit = false;
+
+        private List<Recipe> _recipe;
+        private int _totalWeight;
+
+        public Recipe GetRandomRecipe()
+        {
+            int rand = Random.Range(0, _totalWeight);
+            for(int i = 0; i < _recipe.Count; ++i) {
+                if (rand < _recipe[i].weight) {
+                    return _recipe[i];
+                }
+                rand -= _recipe[i].weight;
+            }
+            return null;
+        }
+        public List<Recipe> GetRandomRecipes(int count)
+        {
+            List<Recipe> recipes = new List<Recipe>(count);
+            for(int i = 0; i < count; ++i) {
+                recipes.Add(GetRandomRecipe());
+            }
+            return recipes;
+        }
 
         public void EventStart()
         {
@@ -136,14 +176,15 @@ namespace MarsDonalds
         public void OnEvent(StageStartEvent e)
         {
             if (e.stageIndex > 0) {
-                orderTable = Data.Order.OrderList.
-                    Where(o => o.openDate <= e.stageIndex).
-                    OrderBy(x => x.weight).
+                _recipe = Recipe.RecipeList.
+                    Where(x => x.openDate <= e.stageIndex).
+                    OrderBy(y => y.weight).
                     ToList();
-                totalWeight = 0;
-                foreach (Data.Order order in orderTable) {
-                    totalWeight += order.weight;
+                _totalWeight = 0;
+                foreach (Recipe recipe in _recipe) {
+                    _totalWeight += recipe.weight;
                 }
+                StartCoroutine(Routine());
             }
         }
         public void OnEvent(StageTimeEvent e)
@@ -158,14 +199,36 @@ namespace MarsDonalds
         {
             // 제출함.
             _isSubmit = true;
-
-            int count = 0;
-            for (int i = 0; i < _current.menuData.Count; ++i) {
-                // cookdata를 recipe의 index로 바꾸는 기능 필요
-                int index = 0;
-                if (_current.menuData.Contains(index)) {
-                    count++;
+            int menuCount = 0;
+            for (int i = _current.menuData.Count - 1; i >= 0; --i) {
+                bool isSame = false;
+                for(int j = e.cookData.Count - 1; j >= 0; --j) {
+                    CookData cookData = e.cookData[j];
+                    if (cookData.PotatoID != _current.menuData[i].potatoID) continue;
+                    if (cookData.CutState != _current.menuData[i].recipe.cutState) continue;
+                    if (cookData.PillState != _current.menuData[i].recipe.pillCheck) continue;
+                    if (cookData.CookState.Count != _current.menuData[i].recipe.CookList.Count) continue;
+                    int sameCount = 0;
+                    for(int k = 0; k < cookData.CookState.Count; ++k) {
+                        if (cookData.CookState[k] == _current.menuData[i].recipe.CookList[k]) {
+                            sameCount++;
+                        }
+                    }
+                    if (sameCount == cookData.CookState.Count) {
+                        e.cookData.RemoveAt(j);
+                        isSame = true;
+                        break;
+                    }
                 }
+                if (isSame) {
+                    _current.menuData.RemoveAt(i);
+                    menuCount++;
+                }
+            }
+
+            int subMenuCount = 0;
+            if(_current.extraSubMenu == e.extraSubMenu) {
+                subMenuCount++;
             }
 
             int sourceCount = 0;
@@ -185,7 +248,6 @@ namespace MarsDonalds
             OrderCompleteEvent.Trigger(1000);
             _current = null;
         }
-
         private IEnumerator Routine()
         {
             WaitForSeconds waitForSecond = new WaitForSeconds(1f);
@@ -209,10 +271,6 @@ namespace MarsDonalds
         private void Awake()
         {
             Instance = this;
-        }
-        private void Start()
-        {
-            StartCoroutine(Routine());
         }
         private void OnEnable() => EventStart();
         private void OnDisable() => EventStop();

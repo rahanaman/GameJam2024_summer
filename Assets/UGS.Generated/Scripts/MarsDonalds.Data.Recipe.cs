@@ -58,10 +58,11 @@ namespace MarsDonalds.Data
 
 		public System.Int32 index;
 		public System.String menuName;
-		public System.Collections.Generic.List<Int32> needIngredientList;
-		public System.Collections.Generic.List<List<Int32>> needCookMethodList;
-		public System.Int32 lastCookMethod;
-		public System.Collections.Generic.List<Int32> extraIngredientPercentList;
+		public System.Int32 pillCheck;
+		public System.Int32 cutState;
+		public System.Collections.Generic.List<Int32> CookList;
+		public System.Int32 openDate;
+		public System.Int32 weight;
   
 
 #region fuctions

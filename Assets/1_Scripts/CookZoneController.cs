@@ -18,7 +18,7 @@ public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Aaa");
+       
     }
 
     public void OnDrop(PointerEventData eventData)

@@ -19,11 +19,11 @@ namespace MarsDonalds
     public struct OrderTimeEvent
     {
         static OrderTimeEvent e;
-        public int value;
+        public Order.OrderData orderData;
 
-        public static void Trigger(int a)
+        public static void Trigger(Order.OrderData a)
         {
-            e.value = a;
+            e.orderData = a;
             EventManager.TriggerEvent(e);
         }
     }
@@ -257,7 +257,7 @@ namespace MarsDonalds
                 while (_isSubmit == false &&
                     _current.IsSubmittable()) {
                     _current.TimePassed();
-                    OrderTimeEvent.Trigger(_current.PassedTime);
+                    OrderTimeEvent.Trigger(_current);
                     yield return waitForSecond;
                 }
                 if (_current == null) continue;

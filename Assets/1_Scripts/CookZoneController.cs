@@ -1,3 +1,4 @@
+using MarsDonalds;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,13 @@ public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler
 {
     [SerializeField] Image _ingredient;
     private IngredientID _id;
+    private CookData _data;
+    private bool _isAvailable { get { return _data == null; } }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        MainController.Instance.SetCookData(_data);
+        _data = null;
         MainController.Instance.SetHand(_id);
         _id = IngredientID.None;
         _ingredient.sprite = MainController.Instance.GetSprite(IngredientID.None);
@@ -23,8 +28,10 @@ public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if(MainController.Instance.ID != IngredientID.None)
+        if(_isAvailable&&MainController.Instance.ID != IngredientID.None)
         {
+            _data=MainController.Instance.Data;
+            MainController.Instance.SetCookData();
             _id = MainController.Instance.ID;
             _ingredient.sprite = MainController.Instance.GetSprite(MainController.Instance.ID);
             MainController.Instance.SetHand(IngredientID.None);
@@ -38,7 +45,8 @@ public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler
             _id = MainController.Instance.ID;
             _ingredient.sprite = MainController.Instance.GetSprite(MainController.Instance.ID);
             MainController.Instance.SetHand(IngredientID.None);
+            _data = MainController.Instance.Data;
+            MainController.Instance.SetCookData();
         }
-        Debug.Log("a");
     }
 }

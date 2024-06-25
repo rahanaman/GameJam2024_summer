@@ -1,15 +1,18 @@
+using MarsDonalds;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Properties;
 using UnityEngine;
 
-public class MainController :MonoBehaviour
+public class MainController : MonoBehaviour
 {
     private static MainController _instance;
     [SerializeField] private HandController _handController;
     [SerializeField] private IngredientID _id;
     private Sprite[] _ingredients;
     [SerializeField] private Camera _camera;
+
+    public CookData Data { get; private set; }
 
     public IngredientID ID
     {
@@ -66,6 +69,11 @@ public class MainController :MonoBehaviour
     public Sprite GetSprite(IngredientID id)
     {
         return _ingredients[(int)id];
+    }
+
+    public void SetCookData(CookData d = null)
+    {
+        Data = d;
     }
 
 

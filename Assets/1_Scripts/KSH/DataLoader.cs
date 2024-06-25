@@ -1,14 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UGS;
 using UnityEngine;
 
 namespace MarsDonalds
 {
-    public class Order
+    public class DataLoader : MonoBehaviour
     {
-        public int id;
-        public float orderTime;
 
-        public bool isComplete;
     }
 }

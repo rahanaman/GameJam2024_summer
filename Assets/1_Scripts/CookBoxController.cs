@@ -33,6 +33,8 @@ namespace MarsDonalds
 
         [SerializeField] private Image _bar;
 
+        [SerializeField] private CookBoxOutputController _controller;
+
         public CookData Data { get; private set; }
         public bool IsCooking { get; private set; } = false;
         public bool IsAvailable { get { return Data == null; } }
@@ -66,21 +68,28 @@ namespace MarsDonalds
             }
             else
             {
-                CookEndEvent.Trigger(_cookType);
+                IsCooking = false;
+                _bar.fillAmount = 0;
+                _controller.Stop();
             }
+        }
+
+        public void Cook()
+        {
+            _startTime = _currentTime;
+            IsCooking = true;
+            Data.Cook(_cookType);
         }
 
         public void OnEvent(CookStartEvent e)
         {
-            _startTime = _currentTime;
-            IsCooking = true;
+            
             // 상태 변화 - cookData 수정하기
         }
 
         public void OnEvent(CookEndEvent e)
         {
-            IsCooking = false;
-            _bar.fillAmount = 0;
+            
             
         }
 

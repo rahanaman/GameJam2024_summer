@@ -4,13 +4,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+public struct CutStartEvent
+{
+    static CutStartEvent e;
+    public int value;
+    public static void Trigger(int v)
+    {
+        e.value = v;
+        EventManager.TriggerEvent(e);
+    }
+}
 
-public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler,IDragHandler, IEndDragHandler
+public struct CutEndEvent
+{
+    static CutEndEvent e;
+    public static void Trigger()
+    {
+
+        EventManager.TriggerEvent(e);
+    }
+}
+
+
+public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler,IDragHandler, IEndDragHandler,IEventListener<CutStartEvent>,IEventListener<CutEndEvent>
 {
     [SerializeField] Image _ingredient;
     private IngredientID _id;
     private CookData _data;
+    public CookData Data {  get { return _data; } }
     private bool _isAvailable { get { return _data == null; } }
+    public bool IsAvailable { get { return _isAvailable; } }
+    public bool IsListening => throw new System.NotImplementedException();
+
+    private bool _isWorking = false;
+    public bool IsWorking { get { return _isWorking; } }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -28,7 +55,7 @@ public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if(_isAvailable&&MainController.Instance.ID != IngredientID.None)
+        if(!_isWorking&&_isAvailable && MainController.Instance.ID != IngredientID.None && MainController.Instance.ID < IngredientID.Waste)
         {
             _data=MainController.Instance.Data;
             MainController.Instance.SetCookData();
@@ -49,4 +76,32 @@ public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler
             MainController.Instance.SetCookData();
         }
     }
+
+    public void OnEvent(CutStartEvent e)
+    {
+        _isWorking = true;
+        //상태 변경
+        Data.Pill(e.value);
+    }
+    public void OnEvent(CutEndEvent e)
+    {
+        _isWorking = false;
+        _id = _data.GetIngredientID();
+        _ingredient.sprite = MainController.Instance.GetSprite(_id);
+    }
+
+
+    public void EventStart()
+    {
+        this.EventStartListening<CutStartEvent>();
+        this.EventStartListening<CutEndEvent>();
+    }
+
+    public void EventStop()
+    {
+        this.EventStopListening<CutStartEvent>();
+        this.EventStopListening<CutEndEvent>();
+    }
+    private void OnEnable() => EventStart();
+    private void OnDisable() => EventStop();
 }

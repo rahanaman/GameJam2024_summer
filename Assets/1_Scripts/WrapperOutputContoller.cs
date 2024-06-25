@@ -3,27 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
 using UnityEngine.UI;
 
 namespace MarsDonalds
 {
-    public class CookBoxOutputController : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler, IEventListener<CookEndEvent>
+
+
+
+    public class WrapperOutputContoller : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler, IEventListener<WrapEndEvent>
     {
         [SerializeField] private Image _ingredient;
         [SerializeField] private RectTransform _rectTransform;
-        [SerializeField] private CookBoxController _controller;
-        [SerializeField]private IngredientID _id;
+        [SerializeField] private WrapperController _controller;
+        [SerializeField] private IngredientID _id;
         public bool IsListening => throw new System.NotImplementedException();
 
         public void EventStart()
         {
-            this.EventStartListening<CookEndEvent>();
+            this.EventStartListening<WrapEndEvent>();
         }
 
         public void EventStop()
         {
-            this.EventStopListening<CookEndEvent>();
+            this.EventStopListening<WrapEndEvent>();
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -35,21 +37,14 @@ namespace MarsDonalds
             _ingredient.sprite = MainController.Instance.GetSprite(IngredientID.None);
         }
 
-        public void Stop()
-        {
-            _id = _controller.Data.GetIngredientID();
-            _ingredient.sprite = MainController.Instance.GetSprite(_id);
-            _rectTransform.localPosition = new Vector3(-175, 0, 0);
-            _rectTransform.DOLocalMove(Vector3.zero, 0.5f);
-        }
         public void OnDrag(PointerEventData eventData)
         {
-            
+
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if(MainController.Instance.ID != IngredientID.None)
+            if (MainController.Instance.ID != IngredientID.None)
             {
                 _id = MainController.Instance.ID;
                 _ingredient.sprite = MainController.Instance.GetSprite(_id);
@@ -59,9 +54,12 @@ namespace MarsDonalds
             }
         }
 
-        public void OnEvent(CookEndEvent e)
+        public void OnEvent(WrapEndEvent e)
         {
-            
+            _id = IngredientID.wrapwrap;
+            _ingredient.sprite = MainController.Instance.GetSprite(_id);
+            _rectTransform.localPosition = new Vector3(0, 300, 0);
+            _rectTransform.DOLocalMove(Vector3.zero, 0.5f);
         }
         private void OnEnable() => EventStart();
         private void OnDisable() => EventStop();

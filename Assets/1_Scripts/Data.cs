@@ -8,6 +8,8 @@ public enum IngredientID
     None,
     Potatoes,
     SlicedPotatoes,
+    Waste,
+    wrapwrap
 }
 public class Data 
 {

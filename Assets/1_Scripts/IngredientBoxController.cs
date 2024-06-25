@@ -22,6 +22,11 @@ public class IngredientBoxController : MonoBehaviour,IBeginDragHandler,IEndDragH
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if(MainController.Instance.ID == IngredientID.None)
+        {
+            //재료 돈 마이너스
+            Debug.Log("aaa");
+        }
         MainController.Instance.SetHand(IngredientID.None);
     }
 }

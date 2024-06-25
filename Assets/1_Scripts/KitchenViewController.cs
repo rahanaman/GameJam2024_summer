@@ -38,7 +38,6 @@ public class KitchenViewController : MonoBehaviour, IDragHandler, IBeginDragHand
     private void pointerMove()
     {
         Vector3 v = Input.mousePosition;
-        //Debug.Log(Screen.width - _bound);
         if(v.x < _bound) {
             _canvas.transform.position = new Vector3(checkBound(_canvas.transform.position.x + _speed * Time.deltaTime), _canvas.transform.position.y, _canvas.transform.position.z);
         }

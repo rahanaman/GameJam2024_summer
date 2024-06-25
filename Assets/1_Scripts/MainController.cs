@@ -18,21 +18,15 @@ public class MainController :MonoBehaviour
 
     public static MainController Instance
     {
-        get { return _instance; }
+        get {
+            if (_instance == null) throw new System.Exception();
+            return _instance;
+        }
     }
 
     private void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-            LoadData();
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+        
     }
 
     private void FixedUpdate()
@@ -47,6 +41,16 @@ public class MainController :MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        _instance = this;
+        LoadData();
+    }
+
+    private void OnDestory()
+    {
+        _instance = null;
+    }
     private void LoadData()
     {
         _ingredients = Resources.LoadAll<Sprite>("0_Images");

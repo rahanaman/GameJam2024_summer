@@ -150,15 +150,6 @@ namespace MarsDonalds
             }
             return null;
         }
-        public List<Recipe> GetRandomRecipes(int count)
-        {
-            List<Recipe> recipes = new List<Recipe>(count);
-            for(int i = 0; i < count; ++i) {
-                recipes.Add(GetRandomRecipe());
-            }
-            return recipes;
-        }
-
         public void EventStart()
         {
             this.EventStartListening<StageStartEvent>();

@@ -2,6 +2,7 @@ using MarsDonalds.Data;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace MarsDonalds
@@ -29,9 +30,18 @@ namespace MarsDonalds
     public struct OrderSubmitEvent
     {
         static OrderSubmitEvent e;
+        public List<CookData> cookData;
+        public List<int> extraSource;
+        public List<int> extraDrink;
         
-        public static void Trigger()
+        public static void Trigger(
+            IEnumerable<CookData> cookData, 
+            IEnumerable<int> extraSource, 
+            IEnumerable<int> extraDrink)
         {
+            e.cookData = cookData.ToList();
+            e.extraSource = extraSource.ToList();
+            e.extraDrink = extraDrink.ToList();
             EventManager.TriggerEvent(e);
         }
     }
@@ -67,9 +77,9 @@ namespace MarsDonalds
 
         public class OrderData
         {
-            List<int> menuData;
-            List<int> extraSource;
-            List<int> extraDrink;
+            public List<int> menuData;
+            public List<int> extraSource;
+            public List<int> extraDrink;
 
             int passedTime;
             int timeLimit;
@@ -148,7 +158,31 @@ namespace MarsDonalds
         {
             // 제출함.
             _isSubmit = true;
-            OrderCompleteEvent.Trigger(100);
+
+            int count = 0;
+            for (int i = 0; i < _current.menuData.Count; ++i) {
+                // cookdata를 recipe의 index로 바꾸는 기능 필요
+                int index = 0;
+                if (_current.menuData.Contains(index)) {
+                    count++;
+                }
+            }
+
+            int sourceCount = 0;
+            for(int i = 0; i < _current.extraSource.Count; ++i) {
+                if (e.extraSource.Contains(_current.extraSource[i])) {
+                    sourceCount++;
+                }
+            }
+
+            int drinkCount = 0;
+            for (int i = 0; i < _current.extraDrink.Count; ++i) {
+                if (e.extraDrink.Contains(_current.extraDrink[i])) {
+                    drinkCount++;
+                }
+            }
+
+            OrderCompleteEvent.Trigger(1000);
             _current = null;
         }
 
@@ -166,6 +200,8 @@ namespace MarsDonalds
                 }
                 if (_current == null) continue;
                 // 주문 제한 시간 초과
+                _current = null;
+                // 주문 제한 시간 초과 패넕티 부여
                 OrderCancelEvent.Trigger();
             }
         }

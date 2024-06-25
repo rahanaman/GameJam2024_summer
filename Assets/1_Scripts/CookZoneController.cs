@@ -55,7 +55,7 @@ public class CookZoneController : MonoBehaviour, IDropHandler, IBeginDragHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if(!_isWorking&&_isAvailable && MainController.Instance.ID != IngredientID.None && MainController.Instance.ID < IngredientID.Waste)
+        if(!_isWorking&&_isAvailable && MainController.Instance.ID != IngredientID.None && MainController.Instance.ID < IngredientID.Waste && MainController.Instance.ID < IngredientID.À½½Ä)
         {
             _data=MainController.Instance.Data;
             MainController.Instance.SetCookData();

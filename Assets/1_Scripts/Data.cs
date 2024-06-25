@@ -8,8 +8,19 @@ public enum IngredientID
     None,
     Potatoes,
     SlicedPotatoes,
+    음식,
     Waste,
-    wrapwrap
+    포장,
+    wrapwrap,
+    음료,
+    환타,
+    콜라,
+    사이다,
+    소스,
+    간장,
+    머스타드,
+    케챱,
+    햄버거,
 }
 public class Data 
 {

@@ -260,7 +260,7 @@ namespace MarsDonalds
                 if (_current == null) continue;
                 // 주문 제한 시간 초과
                 _current = null;
-                // 주문 제한 시간 초과 패넕티 부여
+                // 주문 제한 시간 초과 패널티 부여
                 OrderCancelEvent.Trigger();
             }
         }

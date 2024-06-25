@@ -35,7 +35,7 @@ namespace MarsDonalds
         public void OnDrop(PointerEventData eventData)
         {
 
-            if(!_controller.IsCooking&&_controller.IsAvailable&&MainController.Instance.ID != IngredientID.None && MainController.Instance.ID < IngredientID.Waste)
+            if(!_controller.IsCooking&&_controller.IsAvailable&&MainController.Instance.ID != IngredientID.None && MainController.Instance.ID < IngredientID.Waste && MainController.Instance.ID < IngredientID.À½½Ä)
             {
                 _controller.SetCookData(MainController.Instance.Data);
                 MainController.Instance.SetCookData();

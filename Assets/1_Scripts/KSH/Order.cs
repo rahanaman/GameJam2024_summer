@@ -10,9 +10,11 @@ namespace MarsDonalds
     public struct OrderStartEvent
     {
         static OrderStartEvent e;
+        public Order.OrderData orderData;
 
-        public static void Trigger()
+        public static void Trigger(Order.OrderData a)
         {
+            e.orderData = a;
             EventManager.TriggerEvent(e);
         }
     }
@@ -129,6 +131,8 @@ namespace MarsDonalds
 
             public int PassedTime => passedTime;
             public int RemainTime => timeLimit - passedTime;
+
+            public float TimeRatio => (float)RemainTime / timeLimit;
         }
         public static Order Instance { get; private set; } = null;
         public bool IsListening => throw new System.NotImplementedException();
@@ -166,6 +170,7 @@ namespace MarsDonalds
         }
         public void OnEvent(StageStartEvent e)
         {
+            Debug.Log("Stage Start Trigger");
             if (e.stageIndex > 0) {
                 _recipe = Recipe.RecipeList.
                     Where(x => x.openDate <= e.stageIndex).
@@ -180,7 +185,7 @@ namespace MarsDonalds
         }
         public void OnEvent(StageTimeEvent e)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
         public void OnEvent(StageEndEvent e)
         {
@@ -245,6 +250,7 @@ namespace MarsDonalds
             while (Stage.Instance.IsPlay) {
                 _current = new OrderData();
                 _isSubmit = false;
+                OrderStartEvent.Trigger(_current);
                 while (_isSubmit == false &&
                     _current.IsSubmittable()) {
                     _current.TimePassed();

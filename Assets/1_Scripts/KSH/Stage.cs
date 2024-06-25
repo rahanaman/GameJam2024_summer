@@ -58,11 +58,19 @@ namespace MarsDonalds
             StartCoroutine(Routine());
         }
 
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0)) {
+                OrderCompleteEvent.Trigger(1);
+            }
+        }
+
         private IEnumerator Routine()
         {
             int currentTime = 0;
             WaitForSeconds waitForSecond = new WaitForSeconds(1f);
             // 스테이지 시작
+            StageStartEvent.Trigger(stageIndex);
             while(currentTime < _stageTime) {
                 StageTimeEvent.Trigger(currentTime++);
                 yield return waitForSecond;

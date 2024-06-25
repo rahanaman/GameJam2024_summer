@@ -29,7 +29,14 @@ namespace MarsDonalds
         }
     }
 
-
+    public struct StageEndEvent
+    {
+        static StageEndEvent e;
+        public static void Trigger()
+        {
+            EventManager.TriggerEvent(e);
+        }
+    }
     /// <summary>
     /// 전반적인 스테이지를 컨트롤
     /// 남은 제한시간, 돈 등등
@@ -40,6 +47,7 @@ namespace MarsDonalds
         private int _stageTime = 300;
         public static Stage Instance { get; private set; } = null;
         public int stageIndex = 1;
+        public bool IsPlay = true;
         private void Awake()
         {
             Instance = this;
@@ -60,6 +68,7 @@ namespace MarsDonalds
                 yield return waitForSecond;
             }
             // 스테이지 종료
+            StageEndEvent.Trigger();
         }
     }
 }

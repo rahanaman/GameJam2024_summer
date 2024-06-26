@@ -15,7 +15,7 @@ namespace MarsDonalds
 
         private void Start()
         {
-            _text_Money.SetText($"{GameManager.Instance.Money}");
+            _text_Money.SetText($"$ {GameManager.Instance.Money}");
             _image_StageTime.fillAmount = 1;
         }
         public void EventStart()
@@ -30,7 +30,7 @@ namespace MarsDonalds
         }
         public void OnEvent(MoneyEvent e)
         {
-            _text_Money.SetText($"{e.value}");
+            _text_Money.SetText($"$ {e.value}");
         }
 
         public void OnEvent(StageTimeEvent e)

@@ -42,10 +42,13 @@ namespace MarsDonalds
     /// 전반적인 스테이지를 컨트롤
     /// 남은 제한시간, 돈 등등
     /// </summary>
-    public class Stage : MonoBehaviour
+    public class Stage : MonoBehaviour, IEventListener<AnimationEndEvent>
     {
         private int _stageTime = 300;
         public static Stage Instance { get; private set; } = null;
+
+        public bool IsListening => throw new System.NotImplementedException();
+
         public bool IsPlay = true;
         private void Awake()
         {
@@ -55,6 +58,8 @@ namespace MarsDonalds
         {
             StartCoroutine(Routine());
         }
+
+        private bool _isEnd;
         private IEnumerator Routine()
         {
             int currentTime = 0;
@@ -62,6 +67,10 @@ namespace MarsDonalds
             int stageIndex = GameManager.Instance.Stage;
             WaitForSeconds waitForSecond = new WaitForSeconds(1f);
             // 스테이지 시작
+
+            _isEnd = false;
+            StartAnimationEvent.Trigger(stageIndex);
+            yield return new WaitUntil(() => _isEnd == true);
             StageStartEvent.Trigger(stageIndex);
             while(currentTime <= stageTime) {
                 StageTimeEvent.Trigger(currentTime++, stageTime);
@@ -70,5 +79,23 @@ namespace MarsDonalds
             // 스테이지 종료
             StageEndEvent.Trigger();
         }
+
+        public void OnEvent(AnimationEndEvent e)
+        {
+            _isEnd = true;
+        }
+
+        public void EventStart()
+        {
+            this.EventStartListening<AnimationEndEvent>();
+        }
+
+        public void EventStop()
+        {
+            this.EventStopListening<AnimationEndEvent>();
+        }
+
+        private void OnEnable() => EventStart();
+        private void OnDisable() => EventStop();
     }
 }

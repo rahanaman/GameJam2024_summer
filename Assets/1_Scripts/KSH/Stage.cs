@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,11 @@ namespace MarsDonalds
     /// </summary>
     public class Stage : MonoBehaviour, IEventListener<AnimationEndEvent>
     {
-        private int _stageTime = 300;
+        public int 재료값 = 0;
+        public int 렌트값 = 0;
+        public int 폐기값 = 0;
+        public int 수입 = 0;
+        public int 지출 = 0;
         public static Stage Instance { get; private set; } = null;
 
         public bool IsListening => throw new System.NotImplementedException();
@@ -65,6 +70,7 @@ namespace MarsDonalds
             int currentTime = 0;
             int stageTime = 10;
             int stageIndex = GameManager.Instance.Stage;
+            렌트값 = stageIndex * 100;
             WaitForSeconds waitForSecond = new WaitForSeconds(1f);
             // 스테이지 시작
 
@@ -77,6 +83,9 @@ namespace MarsDonalds
                 yield return waitForSecond;
             }
             // 스테이지 종료
+            지출 = 렌트값 + 폐기값 + 재료값;
+            GameManager.Instance.Money -= 렌트값;
+            MoneyEvent.Trigger(GameManager.Instance.Money);
             StageEndEvent.Trigger();
         }
 
@@ -93,6 +102,27 @@ namespace MarsDonalds
         public void EventStop()
         {
             this.EventStopListening<AnimationEndEvent>();
+        }
+
+        public void Use재료(int value)
+        {
+            재료값 += value;
+            GameManager.Instance.Money -= value;
+            MoneyEvent.Trigger(GameManager.Instance.Money);
+        }
+
+        public void 폐기(int value)
+        {
+            폐기값 += value;
+            GameManager.Instance.Money -= value;
+            MoneyEvent.Trigger(GameManager.Instance.Money);
+        }
+
+        public void 판매(int value)
+        {
+            수입 += value;
+            GameManager.Instance.Money += value;
+            MoneyEvent.Trigger(GameManager.Instance.Money);
         }
 
         private void OnEnable() => EventStart();

@@ -25,7 +25,22 @@ public class IngredientBoxController : MonoBehaviour,IBeginDragHandler,IEndDragH
         if(MainController.Instance.ID == IngredientID.None)
         {
             //Àç·á µ· ¸¶ÀÌ³Ê½º
-            Debug.Log("aaa");
+            int value = 0;
+            switch (_imageID) {
+                case IngredientID.Potatoes:
+                    value = 20;
+                    break;
+                case IngredientID.°è¶õ¸À:
+                    value = 30;
+                    break;
+                case IngredientID.°í±¸¸¶¸À:
+                    value = 30;
+                    break;
+                case IngredientID.ÂüÄ¡¸À:
+                    value = 30;
+                    break;
+            }
+            Stage.Instance.UseÀç·á(value);
         }
         MainController.Instance.SetHand(IngredientID.None);
     }

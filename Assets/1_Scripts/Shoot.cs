@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace MarsDonalds
 {
-    public class Shoot : MonoBehaviour, IDropHandler
+    public class Shoot : MonoBehaviour, IDropHandler, IEventListener<OrderStartEvent>
     {
         [SerializeField]Button mButton;
         [SerializeField]List<Image> _음식;
@@ -17,6 +17,8 @@ namespace MarsDonalds
         private List<int> _음료들 = new List<int>();
         private List<int> _소스들 = new List<int>();
         private int _햄버거들=0;
+
+        public bool IsListening => throw new System.NotImplementedException();
 
         private void Start()
         {
@@ -103,6 +105,31 @@ namespace MarsDonalds
                 }
                 
             }
+        }
+
+        public void OnEvent(OrderStartEvent e)
+        {
+            Init();
+        }
+
+        public void EventStart()
+        {
+            this.EventStartListening<OrderStartEvent>();
+        }
+
+        public void EventStop()
+        {
+            this.EventStopListening<OrderStartEvent>();
+        }
+
+        public void OnEnable()
+        {
+            EventStart();
+        }
+
+        public void OnDisable()
+        {
+            EventStop();
         }
     }
 }

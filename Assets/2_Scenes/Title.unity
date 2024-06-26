@@ -1710,6 +1710,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1973270013341628350, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
+      propertyPath: _foodImageData.Array.size
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973270013341628350, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
+      propertyPath: _foodImageData.Array.data[81]
+      value: 
+      objectReference: {fileID: 21300000, guid: d739dddecac70f349a8e86662fe0e942, type: 3}
+    - target: {fileID: 1973270013341628350, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
+      propertyPath: _foodImageData.Array.data[82]
+      value: 
+      objectReference: {fileID: 21300000, guid: f8cd81363700b8e4d8c56b8e3b7e3021, type: 3}
+    - target: {fileID: 1973270013341628350, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
+      propertyPath: _foodImageData.Array.data[83]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3af95453e377d814ca3cc5719e827009, type: 3}
+    - target: {fileID: 1973270013341628350, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
+      propertyPath: _foodImageData.Array.data[84]
+      value: 
+      objectReference: {fileID: 21300000, guid: e4942aa9f6541de4c8dc8ad77533d4ac, type: 3}
+    - target: {fileID: 1973270013341628350, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
+      propertyPath: _foodImageData.Array.data[85]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3c1ad6978b1ed9148b46642d6af7304c, type: 3}
+    - target: {fileID: 1973270013341628350, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
+      propertyPath: _foodImageData.Array.data[86]
+      value: 
+      objectReference: {fileID: 21300000, guid: f2ebb2b7a27ac97499f9aabccfa50cc7, type: 3}
+    - target: {fileID: 1973270013341628350, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
+      propertyPath: _foodImageData.Array.data[87]
+      value: 
+      objectReference: {fileID: 21300000, guid: 385eca214a6cdb24bb595df6529fa9aa, type: 3}
+    - target: {fileID: 1973270013341628350, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
+      propertyPath: _foodImageData.Array.data[88]
+      value: 
+      objectReference: {fileID: 21300000, guid: 30a50aa2348e5c64f9134e5c1d3d2c21, type: 3}
+    - target: {fileID: 1973270013341628350, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
+      propertyPath: _foodImageData.Array.data[89]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3f33eef0c62ae224cbcb3d455e128dfd, type: 3}
     - target: {fileID: 4235790871804019905, guid: 9d0ba00602096ef40903c5d63b83efc2, type: 3}
       propertyPath: m_Name
       value: FoodImage

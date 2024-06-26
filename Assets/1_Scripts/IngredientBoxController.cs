@@ -11,8 +11,9 @@ public class IngredientBoxController : MonoBehaviour,IBeginDragHandler,IEndDragH
     public void OnBeginDrag(PointerEventData eventData)
     {
         CookData data = new CookData(_id);
-        MainController.Instance.SetHand(_imageID);
         MainController.Instance.SetCookData(data);
+
+        MainController.Instance.SetHand(_imageID);
     }
 
     public void OnDrag(PointerEventData eventData)

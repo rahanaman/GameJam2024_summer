@@ -31,7 +31,7 @@ namespace MarsDonalds
                 _controller.SetCookData(MainController.Instance.Data);
                 MainController.Instance.SetCookData();
                 _id = MainController.Instance.ID;
-                _ingredient.sprite = MainController.Instance.GetSprite(_id);
+                _ingredient.sprite = MainController.Instance.GetSprite(_id,_controller.Data);
                 MainController.Instance.SetHand(IngredientID.None);
                 _transform.localPosition = Vector3.zero;
                 _transform.DOLocalMove(_transform.localPosition + new Vector3(0, -300, 0), 0.5f);

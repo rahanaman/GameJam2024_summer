@@ -38,7 +38,7 @@ namespace MarsDonalds
         public void Stop()
         {
             _id = _controller.Data.GetIngredientID();
-            _ingredient.sprite = MainController.Instance.GetSprite(_id);
+            _ingredient.sprite = MainController.Instance.GetSprite(_id,_controller.Data);
             _rectTransform.localPosition = new Vector3(-175, 0, 0);
             _rectTransform.DOLocalMove(Vector3.zero, 0.5f);
         }
@@ -51,11 +51,13 @@ namespace MarsDonalds
         {
             if(MainController.Instance.ID != IngredientID.None)
             {
-                _id = MainController.Instance.ID;
-                _ingredient.sprite = MainController.Instance.GetSprite(_id);
-                MainController.Instance.SetHand(IngredientID.None);
+
                 _controller.SetCookData(MainController.Instance.Data);
+                _id = MainController.Instance.ID;
+                _ingredient.sprite = MainController.Instance.GetSprite(_id,_controller.Data);
                 MainController.Instance.SetCookData();
+                MainController.Instance.SetHand(IngredientID.None);
+               
             }
         }
 

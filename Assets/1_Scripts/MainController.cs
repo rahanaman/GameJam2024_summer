@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Properties;
 using UnityEngine;
 
-public class MainController : MonoBehaviour, IEventListener<OrderStartEvent>,IEventListener<OrderCancelEvent>,IEventListener<OrderSubmitEvent>,IEventListener<StageStartEvent>
+public class MainController : MonoBehaviour
 {
     private static MainController _instance;
     [SerializeField] private HandController _handController;
@@ -22,7 +22,6 @@ public class MainController : MonoBehaviour, IEventListener<OrderStartEvent>,IEv
     public static MainController Instance
     {
         get {
-            if (_instance == null) throw new System.Exception();
             return _instance;
         }
     }
@@ -31,7 +30,7 @@ public class MainController : MonoBehaviour, IEventListener<OrderStartEvent>,IEv
 
     private void Awake()
     {
-        
+        _instance = this;
     }
 
     private void FixedUpdate()
@@ -64,47 +63,46 @@ public class MainController : MonoBehaviour, IEventListener<OrderStartEvent>,IEv
     public void SetHand(IngredientID id)
     {
         _id = id;
-
-        _handController.SetSprite(GetSprite(id));
+        if(Data == null) _handController.SetSprite(GetSprite(id));
+        else _handController.SetSprite(GetSprite(id, Data));
     }
+
+
 
     public Sprite GetSprite(IngredientID id)
     {
-        return _ingredients[(int)id];
+        if (id == IngredientID.None) return FoodImage.Instance.GetSprite(0);
+        switch (id)
+        {
+            case IngredientID.간장: return FoodImage.Instance.GetSprite(87);
+            case IngredientID.케챱: return FoodImage.Instance.GetSprite(85);
+            case IngredientID.머스타드: return FoodImage.Instance.GetSprite(86);
+            case IngredientID.환타: return FoodImage.Instance.GetSprite(82);
+            case IngredientID.사이다: return FoodImage.Instance.GetSprite(84);
+            case IngredientID.콜라: return FoodImage.Instance.GetSprite(83);
+        }
+        if (id == IngredientID.Waste) return FoodImage.Instance.GetSprite(81);
+        if (id == IngredientID.wrapwrap) return FoodImage.Instance.GetSprite(89);
+        return null;
     }
 
+    public Sprite GetSprite(IngredientID id, CookData cookData)
+    {
+        
+        if(id<IngredientID.음식)
+        {
+            if(cookData.CookState.Count==1&& cookData.CookState[0] == 0)
+            {
+                int i = cookData.CutState * 4 + 4 + cookData.PotatoID;
+                return FoodImage.Instance.GetSprite(i);
+            }
+        }
+        return null;
+    }
     public void SetCookData(CookData d = null)
     {
         Data = d;
     }
 
-    public void OnEvent(OrderStartEvent e)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void EventStart()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void EventStop()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnEvent(OrderCancelEvent e)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnEvent(OrderSubmitEvent e)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnEvent(StageStartEvent e)
-    {
-        throw new System.NotImplementedException();
-    }
+   
 }

@@ -47,9 +47,10 @@ namespace MarsDonalds
             if (MainController.Instance.ID != IngredientID.None)
             {
                 _id = MainController.Instance.ID;
-                _ingredient.sprite = MainController.Instance.GetSprite(_id);
-                MainController.Instance.SetHand(IngredientID.None);
                 _controller.SetCookData(MainController.Instance.Data);
+                _ingredient.sprite = MainController.Instance.GetSprite(_id,_controller.Data);
+                MainController.Instance.SetHand(IngredientID.None);
+                
                 MainController.Instance.SetCookData();
             }
         }

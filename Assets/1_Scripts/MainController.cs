@@ -88,17 +88,62 @@ public class MainController : MonoBehaviour
 
     public Sprite GetSprite(IngredientID id, CookData cookData)
     {
-        
-        if(id<IngredientID.음식)
+        if (!cookData.isFood)
         {
-            if(cookData.CookState.Count==1&& cookData.CookState[0] == 0)
+            return FoodImage.Instance.GetSprite(81);
+        }
+        if (id < IngredientID.음식)
+        {
+
+            if (cookData.CookState.Count == 1 && cookData.CookState[0] == 0)
             {
                 int i = cookData.CutState * 4 + 4 + cookData.PotatoID;
                 return FoodImage.Instance.GetSprite(i);
             }
+            if (cookData.CookState.Count == 2)
+            {
+                if (cookData.CookState[0] == 1 && cookData.CookState[1] == 2)
+                {
+                    int i = 72 + cookData.PotatoID;
+                    return FoodImage.Instance.GetSprite(i);
+                }
+                if (cookData.CookState[0] == 1 && cookData.CookState[1] == 3)
+                {
+                    int i = 76 + cookData.PotatoID;
+                    return FoodImage.Instance.GetSprite(i);
+                }
+                if (cookData.CookState[1] == 1)
+                {
+                    int i = 20 + cookData.PotatoID;
+                    return FoodImage.Instance.GetSprite(i);
+                }
+                else
+                {
+                    int i = 24 + cookData.CutState * 12 + 4 * cookData.CookState[1] + cookData.PotatoID-4;
+                    return FoodImage.Instance.GetSprite(i);
+                }
+            }
+            else
+            {
+                if (cookData.CookState[0] == 1)
+                {
+                    int i = 20 + cookData.PotatoID;
+                    return FoodImage.Instance.GetSprite(i);
+                }
+                else
+                {
+                    int i = 24 + cookData.CutState * 12 + 4 * cookData.CookState[0] + cookData.PotatoID-4;
+                    return FoodImage.Instance.GetSprite(i);
+                }
+            }
+
         }
+
+        
         return null;
     }
+        
+    
     public void SetCookData(CookData d = null)
     {
         Data = d;

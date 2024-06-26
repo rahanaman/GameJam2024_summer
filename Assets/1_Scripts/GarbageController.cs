@@ -13,6 +13,7 @@ namespace MarsDonalds
             if(MainController.Instance.ID != IngredientID.None)
             {
                 Stage.Instance.Æó±â(100);
+                MainController.Instance.SetCookData();
                 MainController.Instance.SetHand(IngredientID.None);
             }
         }

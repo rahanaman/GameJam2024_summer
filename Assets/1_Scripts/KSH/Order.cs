@@ -170,7 +170,6 @@ namespace MarsDonalds
         }
         public void OnEvent(StageStartEvent e)
         {
-            Debug.Log("Stage Start Trigger");
             if (e.stageIndex > 0) {
                 _recipe = Recipe.RecipeList.
                     Where(x => x.openDate <= e.stageIndex).

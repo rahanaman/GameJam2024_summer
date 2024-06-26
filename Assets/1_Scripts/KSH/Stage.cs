@@ -20,15 +20,16 @@ namespace MarsDonalds
     public struct StageTimeEvent
     {
         static StageTimeEvent e;
-        public int value;
+        public int current;
+        public int max;
 
-        public static void Trigger(int a)
+        public static void Trigger(int current, int max)
         {
-            e.value = a;
+            e.current = current;
+            e.max = max;
             EventManager.TriggerEvent(e);
         }
     }
-
     public struct StageEndEvent
     {
         static StageEndEvent e;
@@ -43,10 +44,8 @@ namespace MarsDonalds
     /// </summary>
     public class Stage : MonoBehaviour
     {
-
         private int _stageTime = 300;
         public static Stage Instance { get; private set; } = null;
-        public int stageIndex = 1;
         public bool IsPlay = true;
         private void Awake()
         {
@@ -54,32 +53,19 @@ namespace MarsDonalds
         }
         private void Start()
         {
-            UnityGoogleSheet.LoadAllData();
+            
             StartCoroutine(Routine());
         }
-
-        public bool Debugs;
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0)) {
-                if (Debugs) {
-                    OrderCompleteEvent.Trigger(1);
-                }
-                else {
-                    OrderCancelEvent.Trigger();
-                }
-                
-            }
-        }
-
         private IEnumerator Routine()
         {
             int currentTime = 0;
+            int stageTime = 10;
+            int stageIndex = GameManager.Instance.Stage;
             WaitForSeconds waitForSecond = new WaitForSeconds(1f);
             // 스테이지 시작
             StageStartEvent.Trigger(stageIndex);
-            while(currentTime < _stageTime) {
-                StageTimeEvent.Trigger(currentTime++);
+            while(currentTime <= stageTime) {
+                StageTimeEvent.Trigger(currentTime++, stageTime);
                 yield return waitForSecond;
             }
             // 스테이지 종료

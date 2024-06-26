@@ -58,10 +58,17 @@ namespace MarsDonalds
             StartCoroutine(Routine());
         }
 
+        public bool Debugs;
         private void Update()
         {
             if (Input.GetMouseButtonDown(0)) {
-                OrderCompleteEvent.Trigger(1);
+                if (Debugs) {
+                    OrderCompleteEvent.Trigger(1);
+                }
+                else {
+                    OrderCancelEvent.Trigger();
+                }
+                
             }
         }
 

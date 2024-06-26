@@ -55,8 +55,9 @@ namespace MarsDonalds
                     {
                         _음식[_음식들.Count].sprite = MainController.Instance.GetSprite(MainController.Instance.ID);
                         _음식들.Add(MainController.Instance.Data);
-                        MainController.Instance.SetHand(IngredientID.None);
+                        
                         MainController.Instance.SetCookData(null);
+                        MainController.Instance.SetHand(IngredientID.None);
                     }
                 }
                 else if(MainController.Instance.ID < IngredientID.소스)
@@ -72,8 +73,9 @@ namespace MarsDonalds
                             case IngredientID.환타: d = 3; break;
                         }
                         _음료들.Add(d);
-                        MainController.Instance.SetHand(IngredientID.None);
+                        
                         MainController.Instance.SetCookData(null);
+                        MainController.Instance.SetHand(IngredientID.None);
                     }
                 }
                 else if(MainController.Instance.ID < IngredientID.햄버거)
@@ -89,8 +91,9 @@ namespace MarsDonalds
                             case IngredientID.간장: d = 3; break;
                         }
                         _소스들.Add(d);
-                        MainController.Instance.SetHand(IngredientID.None);
+                        
                         MainController.Instance.SetCookData(null);
+                        MainController.Instance.SetHand(IngredientID.None);
                     }
                 }
                 else
@@ -99,8 +102,9 @@ namespace MarsDonalds
                     {
                         _햄버거.sprite = MainController.Instance.GetSprite(MainController.Instance.ID);
                         _햄버거들 = 1;
-                        MainController.Instance.SetHand(IngredientID.None);
+                        
                         MainController.Instance.SetCookData(null);
+                        MainController.Instance.SetHand(IngredientID.None);
                     }
                 }
                 

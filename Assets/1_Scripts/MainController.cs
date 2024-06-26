@@ -92,6 +92,10 @@ public class MainController : MonoBehaviour
         {
             return FoodImage.Instance.GetSprite(81);
         }
+        if(id == IngredientID.wrapwrap)
+        {
+            return FoodImage.Instance.GetSprite(89);
+        }
         if (id < IngredientID.À½½Ä)
         {
 

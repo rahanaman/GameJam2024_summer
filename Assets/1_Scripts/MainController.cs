@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Properties;
 using UnityEngine;
 
-public class MainController : MonoBehaviour
+public class MainController : MonoBehaviour, IEventListener<OrderStartEvent>,IEventListener<OrderCancelEvent>,IEventListener<OrderSubmitEvent>,IEventListener<StageStartEvent>
 {
     private static MainController _instance;
     [SerializeField] private HandController _handController;
@@ -26,6 +26,8 @@ public class MainController : MonoBehaviour
             return _instance;
         }
     }
+
+    public bool IsListening => throw new System.NotImplementedException();
 
     private void Awake()
     {
@@ -76,5 +78,33 @@ public class MainController : MonoBehaviour
         Data = d;
     }
 
+    public void OnEvent(OrderStartEvent e)
+    {
+        throw new System.NotImplementedException();
+    }
 
+    public void EventStart()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void EventStop()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnEvent(OrderCancelEvent e)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnEvent(OrderSubmitEvent e)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnEvent(StageStartEvent e)
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -27,12 +27,25 @@ namespace MarsDonalds
 
         public void Pill(int id)
         {
-            if(PillState>0)
+            if(id > 3)
+            {
+                if(PillState == 0)
+                {
+                    PillState=1;
+                    return;
+                }
+                else
+                {
+                    isFood=false;
+                    return;
+                }
+            }
+            if(CutState > 0)
             {
                 isFood = false;
                 return;
             }
-            PillState = id;
+            CutState = id;
         }
         public void Cook(int id)
         {

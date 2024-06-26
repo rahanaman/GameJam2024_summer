@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace MarsDonalds
@@ -14,7 +15,16 @@ namespace MarsDonalds
 
         public List<int> CookState { get; private set; } //0,1,2,3,4 
 
-
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"감자맛 : {PotatoID} 껍질상태 : {PillState} 자른상태 : {CutState}");
+            sb.Append("요리상태 : ");
+            for(int i = 0; i < CookState.Count; ++i) {
+                sb.Append($" {CookState[i]} ,");
+            }
+            return sb.ToString();
+        }
 
         public CookData(int id)
         {

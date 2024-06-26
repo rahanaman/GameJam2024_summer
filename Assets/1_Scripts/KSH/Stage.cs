@@ -68,7 +68,7 @@ namespace MarsDonalds
         private IEnumerator Routine()
         {
             int currentTime = 0;
-            int stageTime = 10;
+            int stageTime = 180;
             int stageIndex = GameManager.Instance.Stage;
             ·»Æ®°ª = stageIndex * 100;
             WaitForSeconds waitForSecond = new WaitForSeconds(1f);

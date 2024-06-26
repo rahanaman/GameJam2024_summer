@@ -40,7 +40,7 @@ namespace MarsDonalds
         private void Init()
         {
             Money = START_MONEY;
-            Stage = 3;
+            Stage = 1;
             UnityGoogleSheet.LoadAllData();
         }
     }

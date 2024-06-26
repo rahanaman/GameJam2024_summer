@@ -78,7 +78,7 @@ namespace MarsDonalds
                     Append(_bill.DOAnchorPosY(1100, 1f).SetEase(Ease.OutQuart)).
                     AppendCallback(() => {
                         GameManager.Instance.Stage++;
-                        SceneManager.LoadScene("Stage 1");
+                        SceneManager.LoadScene("Stage");
                     }).
                     Play();
             }

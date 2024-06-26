@@ -123,7 +123,7 @@ namespace MarsDonalds
                     }
                 }
                 passedTime = 0;
-                timeLimit = 100;
+                timeLimit = 60;
             }
 
             public bool IsSubmittable() => passedTime < timeLimit;
@@ -251,7 +251,6 @@ namespace MarsDonalds
             if(is메뉴같음 && is서브같음 && is소스같음 && is음료같음) {
                 _current = null;
             }
-            _current = null;
         }
         private IEnumerator Routine()
         {

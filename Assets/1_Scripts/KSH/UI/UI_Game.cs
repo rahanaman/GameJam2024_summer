@@ -35,7 +35,6 @@ namespace MarsDonalds
 
         public void OnEvent(StageTimeEvent e)
         {
-            Debug.Log($"{e.current} / {e.max}");
             _image_StageTime.fillAmount = (float)(e.max - e.current) / e.max;
         }
 

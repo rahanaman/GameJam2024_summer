@@ -247,7 +247,6 @@ namespace MarsDonalds
                         Debug.Log(cookData.ToString());
                         if (cookData.PotatoID != _current.menuData[i].potatoID) continue;
                         if (cookData.CutState != _current.menuData[i].recipe.cutState) continue;
-                        if (cookData.PillState != _current.menuData[i].recipe.pillCheck) continue;
                         if (cookData.CookState.Count != _current.menuData[i].recipe.CookList.Count) continue;
                         int sameCount = 0;
                         for (int k = 0; k < cookData.CookState.Count; ++k) {

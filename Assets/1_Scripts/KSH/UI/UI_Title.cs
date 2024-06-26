@@ -11,7 +11,7 @@ namespace MarsDonalds
 
         public void OnClick_Start()
         {
-            SceneManager.LoadScene("Stage");
+            SceneManager.LoadScene("Stage 1");
         }
 
         public void OnClick_Help()

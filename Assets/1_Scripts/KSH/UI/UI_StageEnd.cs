@@ -40,6 +40,14 @@ namespace MarsDonalds
             SetUIState(true);
             _isClick = false;
             // 여기서 text 값 미리 설정해 두기
+            _text_Income.SetText($"$ {Stage.Instance.수입}");
+            _text_Environment.SetText($"$ {Stage.Instance.폐기값}");
+            _text_Ingredient.SetText($"$ {Stage.Instance.재료값}");
+            _text_Rent.SetText($"$ {Stage.Instance.렌트값}");
+            int profit = Stage.Instance.수입 - Stage.Instance.지출;
+            _text_Profit.SetText((profit > 0 ? "+ " : "- ") + $"$ {Mathf.Abs(profit)}");
+            _text_Profit.color = (profit > 0) ? Color.green : Color.red;
+            _text_Money.SetText($"$ {GameManager.Instance.Money}");
             _bill.anchoredPosition = new Vector2(0, 1100);
             // 목적지는 y = 140;
             _image_BackgroundAlpha.color = Color.clear;
@@ -63,14 +71,27 @@ namespace MarsDonalds
             if (_isClick) return;
             // 여기서 다음 으로 넘어가기
             Debug.Log("넘어가기");
-            Sequence sequence = DOTween.Sequence();
-            sequence.
-                Append(_bill.DOShakeRotation(2f)).
-                Join(_bill.DOAnchorPosY(-850, 2f).SetEase(Ease.OutQuad)).
-                OnComplete(() => {
-                    SceneManager.LoadScene("GameOver");
-                }).
-                Play();
+            if(GameManager.Instance.Money > 0) {
+                Sequence sequence = DOTween.Sequence();
+                sequence.
+                    Append(_bill.DOAnchorPosY(100, 0.25f)).
+                    Append(_bill.DOAnchorPosY(1100, 1f).SetEase(Ease.OutQuart)).
+                    AppendCallback(() => {
+                        GameManager.Instance.Stage++;
+                        SceneManager.LoadScene("Stage 1");
+                    }).
+                    Play();
+            }
+            else {
+                Sequence sequence = DOTween.Sequence();
+                sequence.
+                    Append(_bill.DOShakeRotation(2f)).
+                    Join(_bill.DOAnchorPosY(-850, 2f).SetEase(Ease.OutQuad)).
+                    OnComplete(() => {
+                        SceneManager.LoadScene("GameOver");
+                    }).
+                    Play();
+            }
         }
 
         private void SetUIState(bool state)

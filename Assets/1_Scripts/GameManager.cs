@@ -21,8 +21,8 @@ namespace MarsDonalds
         public bool IsListening => throw new System.NotImplementedException();
 
         private readonly int START_MONEY = 10000;
-        public int Money { get; private set; }
-        public int Stage { get; private set; }
+        public int Money;
+        public int Stage;
 
         private void Awake()
         {
@@ -40,7 +40,7 @@ namespace MarsDonalds
         private void Init()
         {
             Money = START_MONEY;
-            Stage = 1;
+            Stage = 3;
             UnityGoogleSheet.LoadAllData();
         }
     }

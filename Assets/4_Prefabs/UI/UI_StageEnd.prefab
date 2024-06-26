@@ -875,7 +875,7 @@ MonoBehaviour:
   _text_Ingredient: {fileID: 8595567986928436763}
   _text_Rent: {fileID: 8836852492753296297}
   _text_Profit: {fileID: 7089478113697462495}
-  _text_Money: {fileID: 0}
+  _text_Money: {fileID: 3276623334776361299}
   _button_OK: {fileID: 1472179702066672643}
 --- !u!1 &4082100439233506408
 GameObject:

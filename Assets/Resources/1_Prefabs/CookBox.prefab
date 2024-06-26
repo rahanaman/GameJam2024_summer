@@ -511,6 +511,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8297311823039385207}
+  - component: {fileID: 5073584242838472961}
   m_Layer: 5
   m_Name: CookBox
   m_TagString: Untagged
@@ -541,6 +542,18 @@ RectTransform:
   m_AnchoredPosition: {x: -496, y: 269}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5073584242838472961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6176503510622250302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6361d46014d29924d990bc4af0ecab7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8293445828778104184
 GameObject:
   m_ObjectHideFlags: 0

@@ -53,7 +53,6 @@ namespace MarsDonalds
         }
         private void Start()
         {
-            
             StartCoroutine(Routine());
         }
         private IEnumerator Routine()

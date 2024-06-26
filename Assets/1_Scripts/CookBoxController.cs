@@ -60,7 +60,7 @@ namespace MarsDonalds
 
         public void OnEvent(StageTimeEvent e)
         {
-            _currentTime = e.value;
+            _currentTime = e.current;
             if (!IsCooking) return;
             if(_currentTime-_startTime <= _cookTime)
             {

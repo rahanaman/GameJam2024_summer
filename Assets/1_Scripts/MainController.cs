@@ -80,6 +80,7 @@ public class MainController : MonoBehaviour
             case IngredientID.환타: return FoodImage.Instance.GetSprite(82);
             case IngredientID.사이다: return FoodImage.Instance.GetSprite(84);
             case IngredientID.콜라: return FoodImage.Instance.GetSprite(83);
+            case IngredientID.햄버거: return FoodImage.Instance.GetSprite(88);
         }
         if (id == IngredientID.Waste) return FoodImage.Instance.GetSprite(81);
         if (id == IngredientID.wrapwrap) return FoodImage.Instance.GetSprite(89);
@@ -88,9 +89,14 @@ public class MainController : MonoBehaviour
 
     public Sprite GetSprite(IngredientID id, CookData cookData)
     {
+        Debug.Log("potato"+cookData.PotatoID+"pill" + cookData.PillState + "cut" + cookData.CutState + "cook" + cookData.CookState[0]);
         if (!cookData.isFood)
         {
             return FoodImage.Instance.GetSprite(81);
+        }
+        if(id == IngredientID.wrapwrap)
+        {
+            return FoodImage.Instance.GetSprite(89);
         }
         if (id < IngredientID.음식)
         {
@@ -119,7 +125,7 @@ public class MainController : MonoBehaviour
                 }
                 else
                 {
-                    int i = 24 + cookData.CutState * 12 + 4 * cookData.CookState[1] + cookData.PotatoID-4;
+                    int i = 16 + cookData.CutState * 12 + 4 * cookData.CookState[1] + cookData.PotatoID;
                     return FoodImage.Instance.GetSprite(i);
                 }
             }
@@ -132,7 +138,9 @@ public class MainController : MonoBehaviour
                 }
                 else
                 {
-                    int i = 24 + cookData.CutState * 12 + 4 * cookData.CookState[0] + cookData.PotatoID-4;
+                    Debug.Log("durl");
+                    int i = 16 + cookData.CutState * 12 + 4 * cookData.CookState[0] + cookData.PotatoID;
+                    Debug.Log(i);
                     return FoodImage.Instance.GetSprite(i);
                 }
             }

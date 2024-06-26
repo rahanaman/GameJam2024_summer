@@ -2,6 +2,7 @@ using MarsDonalds.Data;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -124,6 +125,31 @@ namespace MarsDonalds
                 }
                 passedTime = 0;
                 timeLimit = 60;
+                StringBuilder sb = new StringBuilder();
+                sb.Append("오더 정보 : ");
+                for(int i = 0; i < menuCount; ++i) {
+                    sb.AppendLine($"감자맛 : {menuData[i].potatoID} 레시피 : {Recipe.RecipeList[menuData[i].recipe.index].menuName}");
+                }
+                if(extraSubMenu > 0) {
+                    sb.AppendLine("햄버거 추가");
+                }
+                if (extraDrink.Count > 0) {
+                    foreach (int a in extraDrink) {
+                        if (a == 1) sb.Append("콜라, ");
+                        if (a == 2) sb.Append("사이다, ");
+                        if (a == 3) sb.Append("환타 ");
+                    }
+                    sb.Append("추가.\n");
+                }
+                if (extraSource.Count > 0) {
+                    foreach(int a in extraSource) {
+                        if (a == 1) sb.Append("케찹, ");
+                        if (a == 2) sb.Append("머스타드, ");
+                        if (a == 3) sb.Append("간장 ");
+                    }
+                    sb.Append("추가.");
+                }
+                Debug.Log(sb.ToString());
             }
 
             public bool IsSubmittable() => passedTime < timeLimit;
@@ -202,6 +228,7 @@ namespace MarsDonalds
                 bool isSame = false;
                 for(int j = e.cookData.Count - 1; j >= 0; --j) {
                     CookData cookData = e.cookData[j];
+                    Debug.Log(cookData.ToString());
                     if (cookData.PotatoID != _current.menuData[i].potatoID) continue;
                     if (cookData.CutState != _current.menuData[i].recipe.cutState) continue;
                     if (cookData.PillState != _current.menuData[i].recipe.pillCheck) continue;

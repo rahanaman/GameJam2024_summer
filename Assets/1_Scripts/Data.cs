@@ -7,6 +7,9 @@ public enum IngredientID
 {
     None,
     Potatoes,
+    °è¶õ¸À,
+    °í±¸¸¶¸À,
+    ÂüÄ¡¸À,
     SlicedPotatoes,
     À½½Ä,
     Waste,

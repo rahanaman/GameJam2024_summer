@@ -9,7 +9,6 @@ namespace MarsDonalds
     {
         [SerializeField] private GameObject _ui_Help;
 
-
         public void OnClick_Start()
         {
             SceneManager.LoadScene("Stage");

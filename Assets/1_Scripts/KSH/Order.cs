@@ -76,7 +76,7 @@ namespace MarsDonalds
     /// </summary>
     public class Order : MonoBehaviour, 
         IEventListener<StageStartEvent>, IEventListener<StageTimeEvent>, IEventListener<StageEndEvent>,
-        IEventListener<OrderSubmitEvent>
+        IEventListener<OrderSubmitEvent>, IEventListener<AnimationEndEvent>
     {
         public class MenuData
         {
@@ -106,7 +106,7 @@ namespace MarsDonalds
                 menuData = new List<MenuData>(menuCount);
                 for(int i = 0; i < menuCount; ++i) {
                     menuData.Add(
-                        new MenuData(Random.Range(0, 4), 
+                        new MenuData(Random.Range(1, 5), 
                         Order.Instance.GetRandomRecipe()));
                 }
                 extraSubMenu = Random.Range(0, 100) < 50 ? 0 : 1;
@@ -160,6 +160,7 @@ namespace MarsDonalds
             this.EventStartListening<StageTimeEvent>();
             this.EventStartListening<StageEndEvent>();
             this.EventStartListening<OrderSubmitEvent>();
+            this.EventStartListening<AnimationEndEvent>();
         }
         public void EventStop()
         {
@@ -167,6 +168,7 @@ namespace MarsDonalds
             this.EventStopListening<StageTimeEvent>();
             this.EventStopListening<StageEndEvent>();
             this.EventStopListening<OrderSubmitEvent>();
+            this.EventStopListening<AnimationEndEvent>();
         }
         public void OnEvent(StageStartEvent e)
         {
@@ -195,6 +197,7 @@ namespace MarsDonalds
             // 제출함.
             _isSubmit = true;
             int menuCount = 0;
+            int allMenuCount = _current.menuData.Count;
             for (int i = _current.menuData.Count - 1; i >= 0; --i) {
                 bool isSame = false;
                 for(int j = e.cookData.Count - 1; j >= 0; --j) {
@@ -240,7 +243,14 @@ namespace MarsDonalds
                 }
             }
 
-            OrderCompleteEvent.Trigger(1000);
+            bool is메뉴같음 = allMenuCount == menuCount;
+            bool is서브같음 = subMenuCount > 0;
+            bool is소스같음 = sourceCount == _current.extraSource.Count;
+            bool is음료같음 = drinkCount == _current.extraDrink.Count;
+
+            if(is메뉴같음 && is서브같음 && is소스같음 && is음료같음) {
+                _current = null;
+            }
             _current = null;
         }
         private IEnumerator Routine()
@@ -256,12 +266,17 @@ namespace MarsDonalds
                     OrderTimeEvent.Trigger(_current);
                     yield return waitForSecond;
                 }
-                if (_current == null) continue;
-                // 주문 제한 시간 초과
-                _current = null;
-                Stage.Instance.폐기(500);
-                // 주문 제한 시간 초과 패널티 부여
-                OrderCancelEvent.Trigger();
+                _isEnd = false;
+                if (_current == null) {
+                    Stage.Instance.판매(1000);
+                    OrderCompleteEvent.Trigger(1000);
+                }
+                else {
+                    _current = null;
+                    Stage.Instance.폐기(500);
+                    OrderCancelEvent.Trigger();
+                }
+                yield return new WaitUntil(() => _isEnd == true);
             }
         }
 
@@ -271,5 +286,13 @@ namespace MarsDonalds
         }
         private void OnEnable() => EventStart();
         private void OnDisable() => EventStop();
+
+        private bool _isEnd = false;
+        public void OnEvent(AnimationEndEvent e)
+        {
+            if(e.key == 1) {
+                _isEnd = true;
+            }
+        }
     }
 }

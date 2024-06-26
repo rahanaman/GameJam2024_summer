@@ -222,35 +222,51 @@ namespace MarsDonalds
         {
             // 제출함.
             _isSubmit = true;
+            StringBuilder sb = new StringBuilder();
+            sb.Append("소스 : ");
+            foreach(int a in e.extraSource) {
+                sb.Append($" {a}");
+            }
+            sb.Append("\n");
+            sb.Append("음료수 : ");
+            foreach (int a in e.extraDrink) {
+                sb.Append($" {a}");
+            }
+            sb.Append("\n");
+            sb.Append($"햄버거 : {e.extraSubMenu}");
+            Debug.Log(sb.ToString());
+
+
             int menuCount = 0;
             int allMenuCount = _current.menuData.Count;
-            for (int i = _current.menuData.Count - 1; i >= 0; --i) {
-                bool isSame = false;
-                for(int j = e.cookData.Count - 1; j >= 0; --j) {
-                    CookData cookData = e.cookData[j];
-                    Debug.Log(cookData.ToString());
-                    if (cookData.PotatoID != _current.menuData[i].potatoID) continue;
-                    if (cookData.CutState != _current.menuData[i].recipe.cutState) continue;
-                    if (cookData.PillState != _current.menuData[i].recipe.pillCheck) continue;
-                    if (cookData.CookState.Count != _current.menuData[i].recipe.CookList.Count) continue;
-                    int sameCount = 0;
-                    for(int k = 0; k < cookData.CookState.Count; ++k) {
-                        if (cookData.CookState[k] == _current.menuData[i].recipe.CookList[k]) {
-                            sameCount++;
+            if (allMenuCount == e.cookData.Count) {
+                for (int i = _current.menuData.Count - 1; i >= 0; --i) {
+                    bool isSame = false;
+                    for (int j = e.cookData.Count - 1; j >= 0; --j) {
+                        CookData cookData = e.cookData[j];
+                        Debug.Log(cookData.ToString());
+                        if (cookData.PotatoID != _current.menuData[i].potatoID) continue;
+                        if (cookData.CutState != _current.menuData[i].recipe.cutState) continue;
+                        if (cookData.PillState != _current.menuData[i].recipe.pillCheck) continue;
+                        if (cookData.CookState.Count != _current.menuData[i].recipe.CookList.Count) continue;
+                        int sameCount = 0;
+                        for (int k = 0; k < cookData.CookState.Count; ++k) {
+                            if (cookData.CookState[k] == _current.menuData[i].recipe.CookList[k]) {
+                                sameCount++;
+                            }
+                        }
+                        if (sameCount == cookData.CookState.Count) {
+                            e.cookData.RemoveAt(j);
+                            isSame = true;
+                            break;
                         }
                     }
-                    if (sameCount == cookData.CookState.Count) {
-                        e.cookData.RemoveAt(j);
-                        isSame = true;
-                        break;
+                    if (isSame) {
+                        _current.menuData.RemoveAt(i);
+                        menuCount++;
                     }
                 }
-                if (isSame) {
-                    _current.menuData.RemoveAt(i);
-                    menuCount++;
-                }
             }
-
             int subMenuCount = 0;
             if(_current.extraSubMenu == e.extraSubMenu) {
                 subMenuCount++;
@@ -275,6 +291,11 @@ namespace MarsDonalds
             bool is소스같음 = sourceCount == _current.extraSource.Count;
             bool is음료같음 = drinkCount == _current.extraDrink.Count;
 
+            Debug.Log(
+                "메뉴가 같나요? : " + is메뉴같음 +
+                "\n서브가 같나요? : " + is서브같음 +
+                "\n소스가 같나요? : " + is소스같음 +
+                "\n음료가 같나요? : " + is음료같음);
             if(is메뉴같음 && is서브같음 && is소스같음 && is음료같음) {
                 _current = null;
             }

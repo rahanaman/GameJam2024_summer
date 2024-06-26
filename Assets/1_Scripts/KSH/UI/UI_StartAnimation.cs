@@ -21,8 +21,10 @@ namespace MarsDonalds
     public struct AnimationEndEvent
     {
         static AnimationEndEvent e;
-        public static void Trigger()
+        public int key;
+        public static void Trigger(int key)
         {
+            e.key = key;
             EventManager.TriggerEvent(e);
         }
     }
@@ -60,7 +62,7 @@ namespace MarsDonalds
                 Join(_image_BackgroundAlpha.DOColor(Color.clear, 1f)).
                 OnComplete(() => {
                     _image_BackgroundAlpha.raycastTarget = false;
-                    AnimationEndEvent.Trigger();
+                    AnimationEndEvent.Trigger(0);
                 }).
                 Play();
         }

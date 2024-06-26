@@ -47,13 +47,16 @@ namespace MarsDonalds
             for(int i = 0; i < orderData.menuData.Count; ++i) {
                 switch (orderData.menuData[i].potatoID) {
                     case 1:
-                        sb.Append("참치맛 ");
+                        sb.Append("감자맛 ");
                         break;
                     case 2:
-                        sb.Append("고구마맛 ");
+                        sb.Append("계란맛 ");
                         break;
                     case 3:
-                        sb.Append("계란맛 ");
+                        sb.Append("고구마맛 ");
+                        break;
+                    case 4:
+                        sb.Append("참치맛 ");
                         break;
                 }
                 sb.Append(orderData.menuData[i].recipe.menuName);
@@ -73,13 +76,13 @@ namespace MarsDonalds
                 for(int j = 0; j < orderData.extraDrink.Count; ++j) {
                     switch (orderData.extraDrink[j]) {
                         case 1:
-                            sb.Append("제로콜라 하나");
+                            sb.Append("콜라 하나");
                             break;
                         case 2:
-                            sb.Append("제로사이다 하나");
+                            sb.Append("사이다 하나");
                             break;
                         case 3:
-                            sb.Append("제로환타 하나");
+                            sb.Append("환타 하나");
                             break;
                     }
                     if (j < orderData.extraDrink.Count - 1) {
@@ -133,6 +136,7 @@ namespace MarsDonalds
                 Append(_notice.DOAnchorPosY(-1200, 2f).SetEase(Ease.InQuad)).
                 Join(_notice.DOShakeRotation(2f)).
                 AppendCallback(() => _notice.gameObject.SetActive(false)).
+                OnComplete(() => AnimationEndEvent.Trigger(1)).
                 Play();
         }
         public void OnEvent(OrderCompleteEvent e)
@@ -144,6 +148,7 @@ namespace MarsDonalds
                 Append(_notice.DOAnchorPosX(280, 1f).SetEase(Ease.InQuad)).
                 Join(_notice.DOShakeRotation(1f)).
                 AppendCallback(() => _notice.gameObject.SetActive(false)).
+                OnComplete(() => AnimationEndEvent.Trigger(1)).
                 Play();
         }
 

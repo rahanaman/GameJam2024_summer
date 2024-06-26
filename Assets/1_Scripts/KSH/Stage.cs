@@ -91,7 +91,9 @@ namespace MarsDonalds
 
         public void OnEvent(AnimationEndEvent e)
         {
-            _isEnd = true;
+            if(e.key == 0) {
+                _isEnd = true;
+            }
         }
 
         public void EventStart()
